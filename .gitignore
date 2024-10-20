@@ -1,5 +1,14 @@
-# Visual Studio 2015 user specific files
+# Rider specific files
+.idea/
+
+# Visual Studio user specific files
 .vs/
+*.vsconfig
+
+# Word files and folder with assets for description page
+DOCUMENT_ASSETS
+*.pdf
+*.txt
 
 # Compiled Object files
 *.slo
