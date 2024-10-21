@@ -9,8 +9,6 @@
 class UButton;
 #include "Components/TextBlock.h"
 class UTextBlock;
-#include "Components/PanelWidget.h"
-class UPanelWidget;
 
 #ifndef TABLEROWS_H
 #define TABLEROWS_H

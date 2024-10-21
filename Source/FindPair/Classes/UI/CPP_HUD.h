@@ -231,6 +231,13 @@ public:
 	 */
 	UFUNCTION()
 	void EndPause();
+	
+	/**
+	 * Function for destroying unnecessary widgets and for
+	 * restarting recently ended level.
+	 */
+	UFUNCTION()
+	void RestartEndedGame();
 
 	/**
 	 * Function for destroying unnecessary widgets and for

@@ -228,13 +228,10 @@ void ACPP_HUD::InitializeEndedGameWidget(uint32 ClicksNumber, float SpentSeconds
 	if (IsValid(PlayerControllerRef) && GameEnded_Widget == nullptr)
 	{
 		FName Row = FName(TEXT("GameEnded"));
-		UClass* Class = GameInstanceRef->GetWidgetClassBySoftReference(
+		if (UClass* Class = GameInstanceRef->GetWidgetClassBySoftReference(
 			UCPP_StaticWidgetLibrary::GetSoftReferenceToWidgetBlueprintByRowName(
 				WidgetBlueprintsDataTable,
-				Row
-			)
-		);
-		if (Class)
+				Row)))
 		{
 			GameEnded_Widget = CreateWidget<UWCPP_GameEndedPanel>(PlayerControllerRef, Class);
 			if (IsValid(GameEnded_Widget) && IsValid(Container_Widget))
@@ -244,7 +241,7 @@ void ACPP_HUD::InitializeEndedGameWidget(uint32 ClicksNumber, float SpentSeconds
 				GameEnded_Widget->SetClicksNumber(ClicksNumber);
 				GameEnded_Widget->SetResultTime(SpentSeconds);
 				GameEnded_Widget->GoToMainMenuButton->OnClicked.AddDynamic(this, &ACPP_HUD::ReturnToMainMenu);
-				GameEnded_Widget->RestartGameButton->OnClicked.AddDynamic(this, &ACPP_HUD::RestartCurrentGame);
+				GameEnded_Widget->RestartGameButton->OnClicked.AddDynamic(this, &ACPP_HUD::RestartEndedGame);
 				Container_Widget->GameEndedSizeBox->AddChild(GameEnded_Widget);
 			}
 		}
@@ -256,7 +253,7 @@ void ACPP_HUD::DestroyEndedGameWidget()
 	if (IsValid(GameEnded_Widget))
 	{
 		GameEnded_Widget->GoToMainMenuButton->OnClicked.RemoveDynamic(this, &ACPP_HUD::ReturnToMainMenu);
-		GameEnded_Widget->RestartGameButton->OnClicked.RemoveDynamic(this, &ACPP_HUD::RestartCurrentGame);
+		GameEnded_Widget->RestartGameButton->OnClicked.RemoveDynamic(this, &ACPP_HUD::RestartEndedGame);
 		GameEnded_Widget->RemoveFromParent();
 		GameEnded_Widget = nullptr;
 	}
@@ -267,13 +264,10 @@ void ACPP_HUD::InitializeLoadingScreenWidget()
 	if (IsValid(PlayerControllerRef) && LoadingScreen_Widget == nullptr)
 	{
 		FName Row = FName(TEXT("Loading"));
-		UClass* Class = GameInstanceRef->GetWidgetClassBySoftReference(
+		if (UClass* Class = GameInstanceRef->GetWidgetClassBySoftReference(
 			UCPP_StaticWidgetLibrary::GetSoftReferenceToWidgetBlueprintByRowName(
 				WidgetBlueprintsDataTable,
-				Row
-			)
-		);
-		if (Class)
+				Row)))
 		{
 			LoadingScreen_Widget = CreateWidget<UWCPP_LoadingScreen>(PlayerControllerRef, Class);
 			if (IsValid(LoadingScreen_Widget) && IsValid(Container_Widget))
@@ -313,6 +307,23 @@ void ACPP_HUD::EndPause()
 	{
 		PlayerControllerRef->EndPause();
 	}
+}
+
+void ACPP_HUD::RestartEndedGame()
+{
+	if (IsValid(PlayerControllerRef))
+	{
+		PlayerControllerRef->EndPause();
+	}
+
+	InitializeLoadingScreenWidget();
+	DestroyEndedGameWidget();
+	DestroyPauseWidget();
+
+	if (IsValid(PlayerControllerRef))
+	{
+		PlayerControllerRef->RestartEndedGame();
+	}	
 }
 
 void ACPP_HUD::RestartCurrentGame()

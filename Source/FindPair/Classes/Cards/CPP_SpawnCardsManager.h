@@ -83,14 +83,14 @@ public:
 	 * The player wants to play this level using several
 	 * cards' styles?
 	 */
-	bool bSeveralCardsStylesAreUsed = false;
+	bool bSeveralCardsStylesAreUsed;
 
 	/**
 	 * Cards' backs to use if there are several used cards'
 	 * styles.
 	 */
 	UPROPERTY()
-	UMaterialInstance* MI_GeneralCardBack = nullptr;
+	UMaterialInstance* MI_GeneralCardBack;
 
 	/**
 	 * The number of cards' pairs that will be used on

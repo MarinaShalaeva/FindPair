@@ -70,13 +70,32 @@ void ACPP_PlayerController::SetCardsDelegatesRef(UCPP_CardsDelegates* NewCardsDe
 	CardsDelegatesRef = NewCardsDelegatesRef;
 }
 
-void ACPP_PlayerController::RestartCurrentGame()
+void ACPP_PlayerController::RestartEndedGame() const
 {
 	if (IsValid(CardsDelegatesRef))
 	{
 		if (CardsDelegatesRef->ShouldDestroyAllCardsDelegate.IsBound())
 		{
 			CardsDelegatesRef->ShouldDestroyAllCardsDelegate.Execute();
+		}
+		if (CardsDelegatesRef->ShouldRestartLevelDelegate.IsBound())
+		{
+			CardsDelegatesRef->ShouldRestartLevelDelegate.Execute();
+		}
+	}
+}
+
+void ACPP_PlayerController::RestartCurrentGame() const
+{
+	if (IsValid(CardsDelegatesRef))
+	{
+		if (CardsDelegatesRef->ShouldDestroyAllCardsDelegate.IsBound())
+		{
+			CardsDelegatesRef->ShouldDestroyAllCardsDelegate.Execute();
+		}
+		if (CardsDelegatesRef->ResetCountersBeforeRestartingLevelDelegate.IsBound())
+		{
+			CardsDelegatesRef->ResetCountersBeforeRestartingLevelDelegate.Execute();
 		}
 		if (CardsDelegatesRef->ShouldRestartLevelDelegate.IsBound())
 		{

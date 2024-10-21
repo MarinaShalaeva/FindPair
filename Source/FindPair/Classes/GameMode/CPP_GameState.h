@@ -223,7 +223,7 @@ private:
 	 * Level Delegate.
 	 */
 	FTimerHandle TH_CallStartLevelDelegate;
-	
+
 	/**
 	 * Function for starting the level.
 	 * @param PairsNumber Number of pairs on the map.
@@ -250,6 +250,12 @@ private:
 
 	/** Resetting of ShowTwoCardsTimer. */
 	void ResetShowTwoCardsTimer();
+
+	/**
+	 * Function for setting the basic values to properties
+	 * before restarting the level.
+	 */
+	void ResetPropertiesToRestartLevel();
 
 	/**
 	 * Function for ending the level.

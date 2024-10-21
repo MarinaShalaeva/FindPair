@@ -40,6 +40,8 @@ void ACPP_GameState::BeginPlay()
 
 	if (IsValid(CardsDelegatesRef))
 	{
+		CardsDelegatesRef->ResetCountersBeforeRestartingLevelDelegate.BindUObject(
+			this, &ACPP_GameState::ResetPropertiesToRestartLevel);
 		CardsDelegatesRef->CardWasOpenedByPlayerDelegate.BindUObject(this, &ACPP_GameState::UserTriedToOpenCard);
 		CardsDelegatesRef->PlayerTriesToCloseCardDelegate.BindUObject(this, &ACPP_GameState::UserTriedToCloseCard);
 		CardsDelegatesRef->GameOverDelegate.BindUObject(this, &ACPP_GameState::GameOver);
@@ -59,6 +61,26 @@ void ACPP_GameState::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	if (IsValid(GetWorld()) && GetWorld()->GetTimerManager().TimerExists(TH_CallStartLevelDelegate))
 	{
 		GetWorld()->GetTimerManager().ClearTimer(TH_CallStartLevelDelegate);
+	}
+
+	if (IsValid(CardsDelegatesRef))
+	{
+		if (CardsDelegatesRef->ResetCountersBeforeRestartingLevelDelegate.IsBound())
+		{
+			CardsDelegatesRef->ResetCountersBeforeRestartingLevelDelegate.Unbind();
+		}
+		if (CardsDelegatesRef->CardWasOpenedByPlayerDelegate.IsBound())
+		{
+			CardsDelegatesRef->CardWasOpenedByPlayerDelegate.Unbind();
+		}
+		if (CardsDelegatesRef->PlayerTriesToCloseCardDelegate.IsBound())
+		{
+			CardsDelegatesRef->PlayerTriesToCloseCardDelegate.Unbind();
+		}
+		if (CardsDelegatesRef->GameOverDelegate.IsBound())
+		{
+			CardsDelegatesRef->GameOverDelegate.Unbind();
+		}
 	}
 
 	CardsDelegatesRef = nullptr;
@@ -281,6 +303,13 @@ void ACPP_GameState::ResetShowTwoCardsTimer()
 	}
 }
 
+void ACPP_GameState::ResetPropertiesToRestartLevel()
+{
+	ResetShowTwoCardsTimer();
+	FoundPairsNumber = 0;
+	ClicksNumber = 0;
+}
+
 void ACPP_GameState::LevelWasEnded(bool bGameEndedSuccessfully)
 {
 	float GamingTime = -1.0f;
@@ -297,8 +326,7 @@ void ACPP_GameState::LevelWasEnded(bool bGameEndedSuccessfully)
 			                                    ClicksNumber, GamingTime);
 		}
 	}
-	FoundPairsNumber = 0;
-	ClicksNumber = 0;
+	ResetPropertiesToRestartLevel();
 }
 
 void ACPP_GameState::GameOver()

@@ -85,11 +85,11 @@ protected:
 	 * of the actor.
 	 */
 	UPROPERTY(VisibleAnywhere, Category = "Card Actor | Components", meta = (AllowPrivateAccess = true))
-	USceneComponent* Root = nullptr;
+	USceneComponent* Root;
 
 	/** The static mesh component for the card. */
 	UPROPERTY(VisibleAnywhere, Category = "Card Actor | Components", meta = (AllowPrivateAccess = true))
-	UStaticMeshComponent* CardStaticMesh = nullptr;
+	UStaticMeshComponent* CardStaticMesh;
 
 	/**
 	 * The paper sprite component for storing the card's
@@ -97,7 +97,7 @@ protected:
 	 */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Card Actor | Components",
 		meta = (AllowPrivateAccess = true))
-	UPaperSpriteComponent* Image = nullptr;
+	UPaperSpriteComponent* Image;
 
 private:
 	/**

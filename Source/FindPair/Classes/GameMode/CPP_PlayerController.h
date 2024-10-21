@@ -85,12 +85,20 @@ public:
 	void SetCardsDelegatesRef(UCPP_CardsDelegates* NewCardsDelegatesRef);
 
 	/**
+	 * Function for restarting the game again with current
+	 * settings (with the same number of pairs and selected
+	 * cards' styles).
+	 */
+	UFUNCTION()
+	void RestartEndedGame() const;
+	
+	/**
 	 * Function for ending the current find pairs game and
 	 * restarting the game again with current settings (with
 	 * the same number of pairs and selected cards' styles).
 	 */
 	UFUNCTION()
-	void RestartCurrentGame();
+	void RestartCurrentGame() const;
 
 	/**
 	 * Function for ending current find pairs game and

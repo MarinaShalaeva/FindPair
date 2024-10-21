@@ -25,10 +25,17 @@ class ACPP_ParentCard;
 DECLARE_DELEGATE_OneParam(FShouldStartLevel, ELevelMode /* CurrentLevelMode */)
 
 /**
- * Delegate for notifying that player decided to restart
- * current level.
+ * Delegate for notifying the level widget that player decided
+ * to restart current level.
  */
 DECLARE_DELEGATE(FShouldRestartLevel)
+
+/**
+ * Delegate for notifying the Game State that all needed
+ * properties should be resetted to successfully restart the
+ * level.
+ */
+DECLARE_DELEGATE(FResetCountersBeforeRestartingLevel)
 
 /**
  * Delegate for notifying that player opened one card on
@@ -106,6 +113,13 @@ public:
 	 * restart the level.
 	 */
 	FShouldRestartLevel ShouldRestartLevelDelegate;
+
+	/**
+	 * Delegate for notifying that all needed properties
+	 * should be resetted to successfully restart the
+	 * level.
+	 */
+	FResetCountersBeforeRestartingLevel ResetCountersBeforeRestartingLevelDelegate;
 
 	/**
 	 * The delegate for notifying that player opened one
